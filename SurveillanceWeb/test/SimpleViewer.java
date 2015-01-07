@@ -157,10 +157,12 @@ public class SimpleViewer extends WindowAdapter implements CaptureCallback{
                 // This method is called when a new frame is ready.
                 // Don't forget to recycle it when done dealing with the frame.
                 
-                // draw the new frame onto the JLabel
-                label.getGraphics().drawImage(frame.getBufferedImage(), 0, 0, width, height, null);
+              
+                BufferedImage bimage = camera.updateImage(frame.getBufferedImage());
                 
-                BufferedImage bimage = frame.getBufferedImage();
+                // draw the new frame onto the JLabel
+                label.getGraphics().drawImage(bimage, 0, 0, width, height, null);
+                
                 
                 
                 
@@ -171,8 +173,7 @@ public class SimpleViewer extends WindowAdapter implements CaptureCallback{
 					e.printStackTrace();
 				}
                 
-                System.out.println("=================================================");
-                camera.updateImage(bimage);
+               
                 
                 if(camera.isActivated()){
                 	System.out.println("**************************");
@@ -186,7 +187,7 @@ public class SimpleViewer extends WindowAdapter implements CaptureCallback{
 				             clip.setFramePosition(0);  // Must always rewind!
 				             clip.start();
 				             
-				             Thread.sleep(1500);
+				             Thread.sleep(500);
 				             
 				             clip.close();
 						} catch (UnsupportedAudioFileException e) {

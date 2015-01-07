@@ -1,8 +1,11 @@
 package com.cvezga.surveillance.camera;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Camera {
 	
@@ -12,14 +15,17 @@ public class Camera {
 	private int cellHeight;
 	
 	private boolean activated;
+	private BufferedImage bimage;
 	
-	public Camera(int with, int height, int cellWidth, int cellHeight){
+	public Camera(int width, int height, int cellWidth, int cellHeight){
 		
 		this.cellWith = cellWidth;
 		this.cellHeight = cellHeight;
 		
+		this.bimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		
 		this.cellList = new ArrayList<Cell>();
-		int nx = with / cellWidth;
+		int nx = width / cellWidth;
 		int ny = height / cellHeight;
 		for(int x=0; x<nx; x++){
 			for(int y=0; y<ny; y++){
@@ -32,12 +38,12 @@ public class Camera {
 	
 	
 	
-	public void updateImage(BufferedImage image){
+	public BufferedImage updateImage(BufferedImage image){
 		
 		updateCells(image);
 		
 		
-		
+		return this.bimage;
 	}
 
 
@@ -45,6 +51,11 @@ public class Camera {
 	private void updateCells(BufferedImage image) {
 		this.activated=false;
 		
+		Graphics g = this.bimage.getGraphics();
+		
+		g.drawImage(image, 0, 0, null);
+		
+		g.drawRect(0, 0, 100, 100);
 		for(Cell cell : this.cellList){
 			int[] pixelValues = getPixelValues(image, cell);
 			
@@ -52,8 +63,12 @@ public class Camera {
 			if(cell.isActive()){
 				System.out.println("Cell "+cell.getX()+"-"+cell.getY()+" activated");
 				this.activated=true;
+				g.setColor(Color.GREEN);
+				g.drawRect(cell.getX(), cell.getY(), this.cellWith,  this.cellHeight);
 			}
 		}
+		
+		g.dispose();
 		
 	}
 	
