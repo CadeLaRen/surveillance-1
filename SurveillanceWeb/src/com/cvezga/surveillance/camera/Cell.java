@@ -2,7 +2,7 @@ package com.cvezga.surveillance.camera;
 
 public class Cell {
 	
-	private static final float DIFF_VALUE = 0.15f * 255;
+	private static final float DIFF_VALUE = 0.10f * 255;
 	
 	
 	private int x;
@@ -14,8 +14,6 @@ public class Cell {
 	
 	private int[] pixels;
 	
-	private boolean active;
-	
 	private int count=0;
 	
 	private int activateCount;
@@ -26,7 +24,7 @@ public class Cell {
 		this.y=y;
 		this.w=cellWidth;
 		this.h=cellHeight;
-		this.activateCount=(int) (w*h*0.01F);
+		this.activateCount=(int) (w*h*0.10F);
 	}
 
 	
@@ -74,7 +72,6 @@ public class Cell {
 			int difg = Math.abs(g2-g1);
 			int difb = Math.abs(b2-b1);
 			
-			this.active=false;
 			if(difr>DIFF_VALUE ||
 			   difg>DIFF_VALUE ||
 			   difb>DIFF_VALUE) {
