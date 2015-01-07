@@ -3,7 +3,9 @@ package com.cvezga.surveillance.camera;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,6 +18,8 @@ public class Camera {
 	
 	private boolean activated;
 	private BufferedImage bimage;
+	
+	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS a");
 	
 	public Camera(int width, int height, int cellWidth, int cellHeight){
 		
@@ -55,7 +59,8 @@ public class Camera {
 		
 		g.drawImage(image, 0, 0, null);
 		
-		g.drawRect(0, 0, 100, 100);
+		g.setColor(Color.WHITE);
+		g.drawString(sdf.format(new Date()), 5, 20); 
 		for(Cell cell : this.cellList){
 			int[] pixelValues = getPixelValues(image, cell);
 			
