@@ -21,11 +21,14 @@ public class Camera {
 	
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS a");
 	
+	private int pixelArraySize;
+	
 	public Camera(int width, int height, int cellWidth, int cellHeight){
 		
 		this.cellWith = cellWidth;
 		this.cellHeight = cellHeight;
-		
+		this.pixelArraySize = cellWidth*cellHeight;
+
 		this.bimage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		
 		this.cellList = new ArrayList<Cell>();
@@ -66,7 +69,6 @@ public class Camera {
 			
 			cell.setPixels(pixelValues);
 			if(cell.isActive()){
-				System.out.println("Cell "+cell.getX()+"-"+cell.getY()+" activated");
 				this.activated=true;
 				g.setColor(Color.GREEN);
 				g.drawRect(cell.getX(), cell.getY(), this.cellWith,  this.cellHeight);
@@ -78,7 +80,7 @@ public class Camera {
 	}
 	
 	private int[] getPixelValues(BufferedImage image, Cell cell){
-		int[] values = new int[this.cellWith*this.cellHeight];
+		int[] values = new int[pixelArraySize];
 		
 		
 		image.getRGB(cell.getX(),cell.getY(),this.cellWith, this.cellHeight, values, 0, this.cellWith);
